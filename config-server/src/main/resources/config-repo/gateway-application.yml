@@ -1,0 +1,53 @@
+server:
+  port: 80
+spring:
+  application:
+    name: api-gateway-service
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+      default-filters:
+#         http://localhost:auth/doLogin -> Burada segment path ile yakalanan kısımdır. Yani "auth/doLogin" dir.
+#         burada işlenen kısımda şu şekilde oluyor, segment yeni url düzenin sonuna ekleniyor. Yani "/api/v1/auth//dologin" oluyor.
+        - RewritePath= /(?<segment>.*) , /api/v1/$\{segment}
+      routes:
+        - id: auth-service
+          uri: http://localhost:9090
+          predicates:
+            - Path=/auth/**
+          filters:
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+            - name: CircuitBreaker
+              args:
+                name: auth-service
+                fallbackUri: forward:/fallback/auth
+        - id: user-service
+          uri: http://localhost:9092
+          predicates:
+            - Path=/user/**
+          filters:
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+            - name: CircuitBreaker
+              args:
+                name: user-service
+                fallbackUri: forward:/fallback/user
+        - id: post-service
+          uri: http://localhost:9092
+          predicates:
+            - Path=/post/**
+          filters:
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+            - name: CircuitBreaker
+              args:
+                name: post-service
+                fallbackUri: forward:/fallback/post

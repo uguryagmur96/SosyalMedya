@@ -1,0 +1,65 @@
+plugins {
+    id("java")
+    id("org.springframework.boot") version "3.1.1"
+    id("io.spring.dependency-management") version "1.1.0"
+    id("application")
+}
+
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'application'
+    apply plugin: 'java-library'
+    apply from: "${rootDir}/dependencies.gradle"
+}
+
+subprojects {
+    group 'com.sosyalmedya'
+    version '1.0-SNAPSHOT'
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+}
+allprojects {
+    repositories {
+        mavenCentral()
+        google()
+    }
+    buildscript{
+        repositories{
+            mavenCentral()
+            google()
+        }
+    }
+    dependencies {
+        implementation libs.hibernateValidator
+        implementation libs.springBootWeb
+        implementation libs.lombok
+        annotationProcessor libs.lombok
+        implementation libs.swaggerui
+        implementation libs.mapstruct
+        annotationProcessor libs.mapstructProcessor
+        implementation libs.springCloudFeign
+        implementation libs.auth0
+      //  implementation libs.springCloudStarterSleuth
+      //  implementation libs.springCloudSleuthZipkin
+        testImplementation platform('org.junit:junit-bom:5.9.1')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+    }
+}
+
+configurations{
+    compileOnly{
+        extendsFrom annotationProcessor
+    }
+}
+
+
+
+
+

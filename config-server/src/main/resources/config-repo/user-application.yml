@@ -1,0 +1,34 @@
+server:
+  servlet:
+    session:
+      timeout: 120
+  port: 9092
+spring:
+  security:
+    user:
+      name: ugur
+      password: 192837
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: uguryagmur4
+    password: root**
+  cloud:
+    compatibility-verifier:
+      enabled: false
+  zipkin:
+    enabled: false
+    base-url: http://localhost:9411/zipkin/
+    service:
+      name: user-service
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: sosyalmedyadb
+      username: admin12
+      password: ugur**
+myapplication:
+  redis:
+    host: $(REDIS_HOST)
+    port: $(REDIS_PORT)

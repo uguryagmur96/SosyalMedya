@@ -1,0 +1,32 @@
+server:
+  port: 9090
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: uguryagmur4
+    password: root**
+  cloud:
+    compatibility-verifier:
+      enabled: false
+  zipkin:
+    enabled: false
+    base-url: http://localhost:9411/zipkin/
+    service:
+      name: auth-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/AuthDB
+    username: postgres
+    password: 192837
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+my-project:
+  user-service:
+    ip: localhost
+    port: 9092
+    url: http://localhost:9092/api/v1/user

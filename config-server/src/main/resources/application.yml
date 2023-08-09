@@ -1,0 +1,17 @@
+server:
+  port: 8888
+spring:
+  zipkin:
+    enabled: false
+    base-url: http://localhost:9411/zipkin/
+    service:
+      name: config-server
+  profiles:
+    active: native
+  cloud:
+     compatibility-verifier:
+       enabled: false
+     config:
+      server:
+       native:
+         search-locations: classpath:/config-repo

@@ -1,0 +1,8 @@
+rootProject.name = 'SosyalMedya'
+include 'user-micro-service'
+include 'auth-micro-service'
+include 'post-micro-service'
+include 'config-server'
+include 'config-server-git'
+include 'api-gateway-service'
+
